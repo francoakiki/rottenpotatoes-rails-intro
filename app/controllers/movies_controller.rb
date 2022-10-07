@@ -13,17 +13,19 @@ class MoviesController < ApplicationController
         @ratings_to_show = @all_ratings
       else
         @ratings_to_show = (params[:ratings] || session[:ratings]).keys
+        params[:ratings] = (params[:ratings] || session[:ratings])
+        session[:ratings] = (params[:ratings] || session[:ratings])
       end
 
-      if params[:sort] == 'title' or session[:sort] == 'title'
-        if session[:sort] != params[:sort]
-          session[:sort] = params[:sort]
+      if (params[:sort] || session[:sort]) == 'title'
+        if params[:sort] != session[:sort]
+          session[:sort] = 'title'
         end
         @title_header = 'bg-warning'
         @movies = Movie.with_ratings(@ratings_to_show).order('title')
-      elsif params[:sort] == 'release_date' or session[:sort] == 'release_date'
-        if session[:sort] != params[:sort]
-          session[:sort] = params[:sort]
+      elsif (params[:sort] || session[:sort]) == 'release_date'
+        if params[:sort] != session[:sort]
+          session[:sort] = 'ratings_to_show'
         end
         @release_date_header = 'bg-warning'
         @movies = Movie.with_ratings(@ratings_to_show).order('release_date')
