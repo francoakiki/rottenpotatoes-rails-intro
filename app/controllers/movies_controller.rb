@@ -21,13 +21,13 @@ class MoviesController < ApplicationController
         if params[:sort] != session[:sort]
           session[:sort] = 'title'
         end
-        @title_header = 'bg-warning'
+        @title_header = 'hilite bg-warning'
         @movies = Movie.with_ratings(@ratings_to_show).order('title')
       elsif (params[:sort] || session[:sort]) == 'release_date'
         if params[:sort] != session[:sort]
           session[:sort] = 'ratings_to_show'
         end
-        @release_date_header = 'bg-warning'
+        @release_date_header = 'hilite bg-warning'
         @movies = Movie.with_ratings(@ratings_to_show).order('release_date')
       else
         @movies = Movie.with_ratings(@ratings_to_show)
